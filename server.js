@@ -3,6 +3,8 @@ const { auth } = require("express-openid-connect");
 const jwt = require("jsonwebtoken");
 const jwksClient = require("jwks-rsa");
 
+require("dotenv").config();
+
 const client = jwksClient({
   jwksUri: process.env.ISSUER_BASE_URL + "/.well-known/jwks.json",
   cache: true, // cache the key results
@@ -17,7 +19,6 @@ function getKey(header, callback) {
   });
 }
 
-require("dotenv").config();
 const app = express();
 app.use(
   auth({
