@@ -44,6 +44,12 @@ function checkScopes(yamlFile) {
   return function (req, res, next) {
     // figure out which openapi route matches the request
     r.handle(req, res, function (requiredScope) {
+      // handle missing openApi definition
+      if (!requiredScope) {
+        res.sendStatus(404);
+        return;
+      }
+
       // check that the user is authenticated
       if (!req.oidc || !req.oidc.accessToken) {
         res.sendStatus(401);
