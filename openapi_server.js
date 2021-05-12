@@ -63,7 +63,7 @@ function checkScopes(yamlFile) {
 
           // check that the token has the needed scope
           if (token.scp.includes(requiredScope)) {
-            routeAction(req, res, next);
+            next();
           } else {
             res.sendStatus(403);
             return;
@@ -82,8 +82,8 @@ app.use(
   auth({
     authorizationParams: {
       response_type: process.env.RESPONSE_TYPE,
-      audience: "rani", // request access to api1
-      scope: "openid read:api1 write:api1", // request specific permissions
+      audience: "petstore", // request access to api1
+      scope: "openid showPetById", // request specific permissions
     },
   })
 );
@@ -98,7 +98,7 @@ app
     res.send(`add pet`);
   })
   .get("/pets/:petId", (req, res) => {
-    res.send(`getpet ${req.params.petId}`);
+    res.send(`get pet ${req.params.petId}`);
   });
 
 app.listen(3005, () => console.log("listening at http://localhost:3005"));
